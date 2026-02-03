@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Journal</title>
+
+<style>
+:root {
+    --bg: #0f1117;
+    --card: #181b23;
+    --text: #eaeaf0;
+    --muted: #a0a4b8;
+    --accent: #7c9cff;
+    --success: #4ade80;
+    --border: #2a2e3b;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+}
+
+.box {
+    width: 100%;
+    max-width: 720px;
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+textarea, input {
+    width: 100%;
+    background: #10131a;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+textarea { min-height: 120px; }
+
+button {
+    background: var(--accent);
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover { opacity: 0.9; }
+
+pre {
+    background: #0b0e14;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.message { color: var(--success); }
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 25px 0;
+}
+
+/* ===== CALENDAR ===== */
+
+.calendar {
+    background: #10131a;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cal-header button {
+    padding: 6px 12px;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.day-name {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.day {
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.day:hover {
+    background: var(--border);
+}
+
+.selected {
+    background: var(--accent);
+    color: white;
+}
+</style>
+</head>
+
+<body>
+<div class="box">
+
+<h2>📅 Today: {{ todayDate }}</h2>
+
+<form method="POST">
+    <textarea name="entry" placeholder="Write something for today..."></textarea>
+    <button name="action" value="save">Save</button>
+</form>
+
+{% if message %}
+<p class="message">{{ message }}</p>
+{% endif %}
+
+<h3>📖 Today's Notes</h3>
+<pre>{{ todayData }}</pre>
+
+<hr>
+
+<h3>🔍 Select Date from Calendar</h3>
+
+<form method="POST">
+    <input type="hidden" name="date" id="selectedDate">
+    <div class="calendar">
+        <div class="cal-header">
+            <button type="button" onclick="changeMonth(-1)">◀</button>
+            <strong id="monthYear"></strong>
+            <button type="button" onclick="changeMonth(1)">▶</button>
+        </div>
+
+        <div class="cal-grid" id="calendar"></div>
+    </div>
+
+    <button name="action" value="get">Get Notes</button>
+</form>
+
+</div>
+
+<script>
+const calendar = document.getElementById("calendar");
+const monthYear = document.getElementById("monthYear");
+const selectedDateInput = document.getElementById("selectedDate");
+
+let date = new Date();
+let selectedCell = null;
+
+const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+function renderCalendar() {
+    calendar.innerHTML = "";
+    monthYear.textContent = date.toLocaleString("default", {
+        month: "long",
+        year: "numeric"
+    });
+
+    days.forEach(d => {
+        const el = document.createElement("div");
+        el.textContent = d;
+        el.className = "day-name";
+        calendar.appendChild(el);
+    });
+
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+        calendar.appendChild(document.createElement("div"));
+    }
+
+    for (let d = 1; d <= lastDate; d++) {
+        const cell = document.createElement("div");
+        cell.textContent = d;
+        cell.className = "day";
+
+        cell.onclick = () => {
+            if (selectedCell) selectedCell.classList.remove("selected");
+            cell.classList.add("selected");
+            selectedCell = cell;
+
+            const dd = String(d).padStart(2, "0");
+            const mm = String(date.getMonth() + 1).padStart(2, "0");
+            const yyyy = date.getFullYear();
+
+            selectedDateInput.value = `${dd}-${mm}-${yyyy}`;
+        };
+
+        calendar.appendChild(cell);
+    }
+}
+
+function changeMonth(delta) {
+    date.setMonth(date.getMonth() + delta);
+    renderCalendar();
+}
+
+renderCalendar();
+</script>
+
+</body>
+</html>
