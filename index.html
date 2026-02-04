@@ -14,10 +14,14 @@
     --accent: #7c9cff;
     --success: #4ade80;
     --border: #2a2e3b;
+    --danger: #ef4444;
 }
+
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
+    padding: 20px;
     font-family: system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
@@ -43,7 +47,10 @@ textarea, input {
     font-size: 16px;
 }
 
-textarea { min-height: 120px; }
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
 
 button {
     background: var(--accent);
@@ -52,7 +59,6 @@ button {
     padding: 10px 24px;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 10px;
 }
 
 button:hover { opacity: 0.9; }
@@ -64,16 +70,31 @@ pre {
     border: 1px solid var(--border);
 }
 
-.message { color: var(--success); }
-
 hr {
     border: none;
     border-top: 1px solid var(--border);
     margin: 25px 0;
 }
 
-/* ===== CALENDAR ===== */
+.message { color: var(--success); }
 
+/* ===== MIC ===== */
+.mic-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.mic-btn.listening {
+    background: var(--danger);
+    box-shadow: 0 0 14px rgba(239,68,68,0.8);
+}
+
+/* ===== CALENDAR ===== */
 .calendar {
     background: #10131a;
     border-radius: 12px;
@@ -86,10 +107,6 @@ hr {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-}
-
-.cal-header button {
-    padding: 6px 12px;
 }
 
 .cal-grid {
@@ -115,7 +132,7 @@ hr {
     background: var(--border);
 }
 
-.selected {
+.day.selected {
     background: var(--accent);
     color: white;
 }
@@ -127,9 +144,13 @@ hr {
 
 <h2>📅 Today: {{ todayDate }}</h2>
 
+<!-- JOURNAL INPUT -->
 <form method="POST">
-    <textarea name="entry" placeholder="Write something for today..."></textarea>
-    <button name="action" value="save">Save</button>
+    <div style="position:relative;">
+        <textarea id="entry" name="entry" placeholder="Write or speak..."></textarea>
+        <button type="button" id="micBtn" class="mic-btn">🎤</button>
+    </div>
+    <button name="action" value="save" style="margin-top:10px;">Save</button>
 </form>
 
 {% if message %}
@@ -141,10 +162,11 @@ hr {
 
 <hr>
 
-<h3>🔍 Select Date from Calendar</h3>
-
+<!-- CALENDAR -->
+<h3>🔍 Select Date</h3>
 <form method="POST">
     <input type="hidden" name="date" id="selectedDate">
+
     <div class="calendar">
         <div class="cal-header">
             <button type="button" onclick="changeMonth(-1)">◀</button>
@@ -155,24 +177,61 @@ hr {
         <div class="cal-grid" id="calendar"></div>
     </div>
 
-    <button name="action" value="get">Get Notes</button>
+    <button name="action" value="get" style="margin-top:10px;">Get Notes</button>
 </form>
 
 </div>
 
 <script>
+/* ===== SPEECH RECOGNITION ===== */
+const textarea = document.getElementById("entry");
+const micBtn = document.getElementById("micBtn");
+
+let recognition;
+let listening = false;
+
+if ("webkitSpeechRecognition" in window) {
+    recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-IN";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+        listening = true;
+        micBtn.classList.add("listening");
+    };
+
+    recognition.onend = () => {
+        listening = false;
+        micBtn.classList.remove("listening");
+    };
+
+    recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        textarea.value += (textarea.value ? "\n" : "") + text;
+    };
+} else {
+    micBtn.disabled = true;
+    micBtn.textContent = "❌";
+}
+
+micBtn.onclick = () => {
+    if (!recognition || listening) return;
+    recognition.start();
+};
+
+/* ===== CALENDAR ===== */
 const calendar = document.getElementById("calendar");
 const monthYear = document.getElementById("monthYear");
 const selectedDateInput = document.getElementById("selectedDate");
 
-let date = new Date();
+let currentDate = new Date();
 let selectedCell = null;
-
 const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 function renderCalendar() {
     calendar.innerHTML = "";
-    monthYear.textContent = date.toLocaleString("default", {
+    monthYear.textContent = currentDate.toLocaleString("default", {
         month: "long",
         year: "numeric"
     });
@@ -184,8 +243,17 @@ function renderCalendar() {
         calendar.appendChild(el);
     });
 
-    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    const lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const firstDay = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        1
+    ).getDay();
+
+    const lastDate = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        0
+    ).getDate();
 
     for (let i = 0; i < firstDay; i++) {
         calendar.appendChild(document.createElement("div"));
@@ -202,9 +270,8 @@ function renderCalendar() {
             selectedCell = cell;
 
             const dd = String(d).padStart(2, "0");
-            const mm = String(date.getMonth() + 1).padStart(2, "0");
-            const yyyy = date.getFullYear();
-
+            const mm = String(currentDate.getMonth() + 1).padStart(2, "0");
+            const yyyy = currentDate.getFullYear();
             selectedDateInput.value = `${dd}-${mm}-${yyyy}`;
         };
 
@@ -212,8 +279,8 @@ function renderCalendar() {
     }
 }
 
-function changeMonth(delta) {
-    date.setMonth(date.getMonth() + delta);
+function changeMonth(step) {
+    currentDate.setMonth(currentDate.getMonth() + step);
     renderCalendar();
 }
 
