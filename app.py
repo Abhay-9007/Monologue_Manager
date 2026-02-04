@@ -80,57 +80,66 @@
 # }
 # '''
 
-
-
 from flask import Flask, render_template, request
 import json
-import datetime as dt
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 
 DATA_FILE = "data.json"
 
-def getTodayDate():
-    now = dt.datetime.now()
-    return f"{now.day}-{now.month}-{now.year}"
 
-# Load data
-if os.path.exists(DATA_FILE):
+def load_data():
+    if not os.path.exists(DATA_FILE):
+        return {}
     with open(DATA_FILE, "r") as f:
-        data = json.load(f)
-else:
-    data = {}
+        return json.load(f)
+
+
+def save_data(data):
+    with open(DATA_FILE, "w") as f:
+        json.dump(data, f, indent=4)
+
+
+def today_date():
+    return datetime.now().strftime("%d-%m-%Y")
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    todayDate = getTodayDate()
+    data = load_data()
+
+    today = today_date()
+    todayData = data.get(today, "")
     message = ""
-    todayData = data.get(todayDate, "")
 
     if request.method == "POST":
         action = request.form.get("action")
 
+        # SAVE TODAY'S ENTRY
         if action == "save":
-            entry = request.form.get("entry")
-            todayData += entry + "\n"
-            data[todayDate] = todayData
+            entry = request.form.get("entry", "").strip()
+            if entry:
+                data[today] += '\n' + entry
+                save_data(data)
+                todayData = entry
+                message = "Saved ✔"
+            else:
+                message = "Nothing to save."
 
-            with open(DATA_FILE, "w") as f:
-                json.dump(data, f, indent=4)
-
-            message = "Saved successfully ✅"
-
+        # GET ENTRY BY DATE
         elif action == "get":
-            dateEntered = request.form.get("date")
-            todayData = data.get(dateEntered, "No data found for this date ❌")
+            date = request.form.get("date")
+            todayData = data.get(date, "No entry for this date.")
 
     return render_template(
         "index.html",
-        todayDate=todayDate,
+        todayDate=today,
         todayData=todayData,
         message=message
     )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
