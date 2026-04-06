@@ -62,6 +62,11 @@ USERMANUAL = '''
 
 NO = set(['n', 'no', ''])
 if __name__ == "__main__":
+    while True:
+        t = input("Enter Password : ").lower()
+        if t == "faul":
+            break
+        
     print(USERMANUAL)
     
     now = datetime.datetime.now()
