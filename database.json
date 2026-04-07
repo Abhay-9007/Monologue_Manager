@@ -1,0 +1,42 @@
+{
+    "01-04-2026": {
+        "log": [
+            "hi this is abhay",
+            "Working on this Project..."
+        ],
+        "spc": [
+            "Bought Veggie",
+            "Had Biryani"
+        ],
+        "money": {
+            "Veggies": [
+                200
+            ],
+            "Biryani": [
+                200
+            ]
+        }
+    },
+    "05-04-2026": {
+        "log": [
+            "papa was hare at home",
+            "had poha and a perfect ramen"
+        ],
+        "spc": [
+            "made a prefect Ramen"
+        ],
+        "money": {
+            "gave": [
+                "11000"
+            ]
+        }
+    },
+    "06-04-2026": {
+        "log": [
+            "day 2 of learning",
+            "today i did something new and reseted back to production"
+        ],
+        "spc": [],
+        "money": {}
+    }
+}
