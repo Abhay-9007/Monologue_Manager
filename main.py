@@ -4,13 +4,10 @@ Today is 5th April 2026 and i have been working on this project from 3 days.
 '''
 
 import json
-# import os
 import datetime
 
 with open("database.json", "r") as f:
     data = json.load(f)
-
-# print(data)
 
 # these are the functions to get the data from the file.
 def getAllLog(date):
