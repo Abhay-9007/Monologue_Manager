@@ -1,5 +1,5 @@
 const express = require("express");
-// const date = require('date-and-time');
+
 const app = express();
 
 let today = new Date();
@@ -56,51 +56,6 @@ app.get('/home', async (req, res) => {
         });
     }
 });
-
-// app.get('/home/:date', async (req, res) => {
-//     try {
-//         const date = req.params.date;
-//         const data = await nodeModel.findOne({ date: date });
-//         res.status(200).json(data);
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({
-//             message: "Something went wrong"
-//         });
-//     }
-// });
-// app.post('/home', async (req, res) => {
-//     const body = req.body;
-//     await nodeModel.create({
-//         date : todayDate,
-//         logs : body.logs,
-//         special : body.special,
-//         expence : body.expence
-//     });
-
-//     res.status(201).json({
-//         message : "Task Done..."
-//     })
-//     // res.send("This Side ABHAY NIGGA...");
-// })
-
-// app.get('/home/:date', async (req, res) => {
-//     const date = req.params.date;
-
-//     await nodeModel.findOne({date : date}, (err, data) => {
-//         if(err){
-//             console.log(err);
-//         }
-//         else{
-//             res.send(data);
-//         }
-//     })
-
-//     res.send("This Side ABHAY NIGGA...");
-//     res.status(200).json({
-//         message : "This Side ABHAY NIGGA... , Task Done...."
-//     });
-// })
 
 
 module.exports = app;
