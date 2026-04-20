@@ -1,34 +1,22 @@
-// const mongoose = require('mongoose');
-
-// const nodeSchema = new mongoose.Schema({
-//     // date : Date,
-//     logs : Array,
-//     special : Array,
-//     expence : Array
-// });
-// const nodeModel = mongoose.model('node', nodeSchema);
-
-// module.exports = nodeModel
-
 const mongoose = require('mongoose');
 
 const nodeSchema = new mongoose.Schema({
     date: {
-        type: String,   // e.g. "12-12-12"
+        type: String,   
         required: true
     },
 
     logs: [{
-        type: String   // array of lines
+        type: String   
     }],
 
     special: [{
-        type: String   // array of lines
+        type: String   
     }],
 
     expense: {
         type: Map,
-        of: Number   // key: string, value: number
+        of: Number   
     }
 });
 
