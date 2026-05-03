@@ -5,20 +5,18 @@ const nodeSchema = new mongoose.Schema({
         type: String,   
         required: true
     },
-
     logs: [{
         type: String   
     }],
-
     special: [{
         type: String   
     }],
-
     expense: {
         type: Map,
         of: Number   
     }
 });
+
 
 const nodeModel = mongoose.model('Node', nodeSchema);
 
