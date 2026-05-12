@@ -9,21 +9,18 @@ function App(){
     const [logData, setLogData] = useState("")
 
     function handleChangeLog(e){
-        // console.log(e.target.value)
         setLogData(e.target.value)
     }
 
     const [specialData, setSpecialData] = useState("")
 
     function handleChangeSpecial(e){
-        // console.log(e.target.value)
         setSpecialData(e.target.value)
     }
 
     const [weeklyData, setWeeklyData] = useState("")
 
     function handleChangeWeekly(e){
-        // console.log(e.target.value)
         setWeeklyData(e.target.value)
     }
 
