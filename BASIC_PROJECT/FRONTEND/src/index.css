@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    background-color: black;
+    color: white
+}
+
+.input_css{
+    @apply  border-2 border-green-800 bg-black h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none m-1 text-green-600 font-bold
+}
+
+.heading_css{
+    @apply text-5xl font-bold text-center mb-10 pb-3 text-green-800
+}
+
+.button_css{
+    @apply hover:scale-105 border-2 border-green-800 bg-black h-10 px-5 rounded-lg text-sm m-1 text-green-600 font-bold
+}
+
+.link_css{
+    @apply hover:text-blue-500 h-10 px-5 m-1 flex items-center 
+}
