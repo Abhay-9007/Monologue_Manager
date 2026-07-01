@@ -1,0 +1,1 @@
+make a video logging system, like what we sow in avatar
