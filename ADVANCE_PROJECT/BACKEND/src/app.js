@@ -11,7 +11,7 @@ const dataRoutes = require("./routes/data.routes")
 
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5174",
+    origin: "http://localhost:5173",
     credentials: true
 }))
 app.use(express.json());
