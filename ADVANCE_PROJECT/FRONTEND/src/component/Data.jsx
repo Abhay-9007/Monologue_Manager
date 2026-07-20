@@ -48,19 +48,6 @@ function Data(){
                     data.reverse().map((item) => (
                         <div key={item._id}
                         className="border-2 border-green-800 rounded-t-2xl m-3 p-5">
-                            {/* <p className="text-2xl text-white text-wrap w-100"> 
-                                {item.log}
-                                {item.special}
-                                {item.weekly_task}
-                                {item.mood}
-                                {/* {item.expense} */}
-                                {/* {item.log.split('\n').map((line, idx) => (
-                                    <span key={idx}>
-                                    {line}
-                                    {idx !== item.log.split('\n').length - 1 && <br />}
-                                    </span>
-                                ))} 
-                            </p> */}
                             <p className="text-2xl text-white whitespace-pre-wrap w-100">
                                 <strong>Log:</strong>
                                 <br />
