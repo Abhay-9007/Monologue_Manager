@@ -10,10 +10,7 @@ function Home(){
         <Link to="/api/auth/register"> register </Link> <br/>
         <Link to="/create"> create </Link> <br/>
         <Link to="/data"> see data</Link> <br/>
-        {/* <h1> login </h1>
-        <h1> register </h1>
-        <h1> create </h1>
-        <h1> your data </h1> */}
+        
 
         
         </>
