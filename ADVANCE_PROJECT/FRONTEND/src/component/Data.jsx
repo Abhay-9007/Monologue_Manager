@@ -8,37 +8,27 @@ function Data(){
     const [error, setError] = useState("")
 
     useEffect(() => {
-
         async function fetchData(){
-
             try{
-
                 const response = await axios.get(
                     "http://localhost:3000/data",
                     {
                         withCredentials: true
                     }
                 )
-
                 setData(response.data)
-                
-
             }catch(err){
-
                 console.log(err)
-
                 setError("Error fetching data")
             }
         }
         console.log(data)
         fetchData()
-
     }, [])
 
     if(error){
         return <p className="text-2xl text-red-600">{error}</p>
     }
-
 
     return(
         <>
