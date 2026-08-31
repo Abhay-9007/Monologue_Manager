@@ -8,6 +8,7 @@ const authRoutes = require("./routes/auth.routes")
 const logRoutes = require("./routes/log.routes")
 const logInRoutes = require("./routes/login.routes")
 const dataRoutes = require("./routes/data.routes")
+const searchRoutes = require("./routes/search.routes")
 
 const app = express();
 app.use(cors({
@@ -28,6 +29,8 @@ app.use('/', logRoutes)
 app.use('/', logInRoutes)
 
 app.use('/', dataRoutes)
+
+app.use('/', searchRoutes)
 
 
 
