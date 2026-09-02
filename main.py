@@ -99,11 +99,4 @@ with open("database.json", "w") as f:
     json.dump(data, f, indent=4)
     
     
-'''
-papa was hare at home
-had chicken and poha and a perfect ramen  
 
-made a prefect Ramen with eggs and meat
-
-gunjan 11000
-'''
