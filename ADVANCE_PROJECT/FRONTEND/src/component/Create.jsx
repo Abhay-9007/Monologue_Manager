@@ -3,8 +3,6 @@
 // import axios from "axios"
 
 
-
-
 // function Create(){
 //     const navigate = useNavigate()
 
@@ -538,7 +536,6 @@ function Create() {
     return (
   <div className="min-h-screen bg-slate-950 py-10 px-5">
 
-    {/* Background Glow */}
     <div className="fixed top-0 left-0 w-96 h-96 bg-indigo-600 opacity-20 blur-[170px] rounded-full"></div>
     <div className="fixed bottom-0 right-0 w-96 h-96 bg-purple-600 opacity-20 blur-[170px] rounded-full"></div>
 
@@ -557,7 +554,6 @@ function Create() {
         className="bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl p-8 shadow-2xl"
       >
 
-        {/* Daily Log */}
         <div className="mb-8">
           <label className="text-xl font-semibold text-white">
             📖 Daily Log
@@ -570,8 +566,6 @@ function Create() {
             className="mt-3 w-full h-40 bg-slate-800 border border-slate-700 rounded-xl p-5 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-indigo-500"
           />
         </div>
-
-        {/* Special */}
         <div className="mb-8">
           <label className="text-xl font-semibold text-white">
             ⭐ Special Moments
@@ -584,8 +578,6 @@ function Create() {
             className="mt-3 w-full h-32 bg-slate-800 border border-slate-700 rounded-xl p-5 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-indigo-500"
           />
         </div>
-
-        {/* Weekly */}
         <div className="mb-8">
           <label className="text-xl font-semibold text-white">
             🎯 Weekly Goals
@@ -598,8 +590,6 @@ function Create() {
             className="mt-3 w-full h-32 bg-slate-800 border border-slate-700 rounded-xl p-5 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-indigo-500"
           />
         </div>
-
-        {/* Mood */}
         <div className="mb-10">
           <label className="text-xl font-semibold text-white">
             😊 Mood
@@ -612,8 +602,6 @@ function Create() {
             className="mt-3 w-full h-28 bg-slate-800 border border-slate-700 rounded-xl p-5 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-indigo-500"
           />
         </div>
-
-        {/* Expenses */}
         <div>
 
           <div className="flex justify-between items-center mb-6">
@@ -664,9 +652,6 @@ function Create() {
           ))}
 
         </div>
-
-        {/* Submit */}
-
         <div className="flex justify-center mt-12">
 
           <button
